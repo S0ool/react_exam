@@ -22,6 +22,8 @@ export const Header = ({login,setLogin, processSearch})=> {
 
     const handleLogout = () => {
         localStorage.removeItem('username');
+        localStorage.removeItem('basket');
+
         setUsername("");
         setLogin(false);
     };

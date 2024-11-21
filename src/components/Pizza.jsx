@@ -1,8 +1,8 @@
 import styles from './styles.module.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 export const Pizza = ({pizza,login}) => {
     const basket = JSON.parse(localStorage.getItem('basket') || '[]');
-    const current_pizza = basket.filter((item) => item.id === pizza.id)[0];
+    const current_pizza = basket.filter((item) => item.id === pizza.id)[0] || null;
     const [quantity, setQuantity] = useState(current_pizza?.quantity || 0);
 
     const removeFromBasket = () => {
@@ -29,6 +29,10 @@ export const Pizza = ({pizza,login}) => {
         const newBasket = [...basket, {...pizza, quantity: 1}];
         localStorage.setItem('basket', JSON.stringify(newBasket));
     }
+    useEffect(() => {
+        console.log('dsd')
+        console.log(login)
+    }, [login]);
 
     return (
         <div className={styles.pizza}>
@@ -36,7 +40,7 @@ export const Pizza = ({pizza,login}) => {
             <h2 className={styles.name}>{pizza.name}</h2>
             <p className={styles.description}>{pizza.description}</p>
             <p className={styles.price}>Price: ${pizza.price} Rate: {pizza.rate}⭐</p>
-            {login && current_pizza ?
+            {login ? current_pizza ?
                 <div className={styles.basketPizzaAction}>
                     <p className={styles.basketPizzaPrice}>{current_pizza.price * current_pizza.quantity}$</p>
                     <button className={styles.button} onClick={removeFromBasket}>-</button>
@@ -44,7 +48,7 @@ export const Pizza = ({pizza,login}) => {
                     <button className={styles.button} onClick={addToBasket}>+</button>
                 </div>
 
-                : <button className={styles.button} onClick={addToBasket}>Add to basket</button>}
+                : <button className={styles.button} onClick={addToBasket}>Add to basket</button>:''}
 
 
         </div>
